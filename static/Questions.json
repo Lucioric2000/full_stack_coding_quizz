@@ -1,0 +1,38 @@
+[
+	{
+		"title": "Dictionary",
+		"question": "Given a dictionary with the property <code>property1</code> and value <code>value1</code>.",
+		"subText": "Add an additinal property <code>property2</code> and value <code>value2</code>.",
+		"files": [
+			{
+				"name": "test.yaml",
+				"stage": {"property1": "value1"},
+				"answers": [{"property1": "value1"}, {"property2": "value2"}]
+			}
+		]
+	},
+	{
+		"title": "Dictionary",
+		"question": "Given a dictionary with the property <code>name</code> and value <code>apple</code>.",
+		"subText": "Add additinal properties to the dictionary.",
+		"files": [
+			{
+				"name": "fruits.yaml",
+				"stage": {"name": "apple"},
+				"answers": [{"name": "apple"}, {"color": "red"}, {"weight": "90g"}]
+			}
+		]
+	},
+	{
+		"title": "Dictionary",
+		"question": "A dictionary <code>employee</code> is given.",
+		"subText": "Add the remaining properties to it using information from the table below.",
+		"files": [
+			{
+				"name": "employee.yaml",
+				"stage": {"employee": {"name": "john"}},
+				"answers": {"employee": {"name": "john", "gender": "male", "age": 24}}
+			}
+		]
+	}
+]
