@@ -3,10 +3,10 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import {API_URL} from '../env';
-import {Exam} from './exam.model';
+import {Question} from './questions.model';
 
-@Injectable()
-export class ExamsApiService {
+@Injectable({providedIn: 'root'})
+export class QuestionsApiService {
 
   constructor(private http: HttpClient) {
   }
@@ -16,10 +16,15 @@ export class ExamsApiService {
   }
 
   // GET list of public, future events
-  //getExams(): Observable<Exam[]> {
-  getExams(): Observable<any> {
+  //getQuestions(): Observable<Question[]> {
+  getQuestions(): Observable<any> {
     return this.http
-      .get(`${API_URL}/exams`)
-      .catch(ExamsApiService._handleError);
+      .get(`${API_URL}/questions`)
+      .catch(QuestionsApiService._handleError);
+  };
+  getQuestion(question_num): Observable<any> {
+    return this.http
+      .get(`${API_URL}/questions/${question_num}`)
+      .catch(QuestionsApiService._handleError);
   }
 }

@@ -1,68 +1,48 @@
 # coding=utf-8
 
+import os, json, io
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
-from .entities.entity import Session, engine, Base
-from .entities.exam import Exam, ExamSchema
-
-# creating the Flask application
+from ruamel.yaml import YAML
+yaml_parser =  YAML()#typ="safe"
 app = Flask(__name__)
+CORS(app)
 
-# if needed, generate database schema
-Base.metadata.create_all(engine)
+def get_YAML_string(obj):
+    strngio = io.StringIO()
+    yaml_parser.dump(obj, strngio)
+    strngio.seek(0)
+    yamlstr = strngio.read()
+    strngio.close()
+    return yamlstr
 
+@app.route('/questions/<int:number>')
+def get_question(number:int):
+    # Number is base 1
+    jsonpath = os.path.join(os.path.split(os.path.split(__file__)[0])[0], 'static', 'Questions.json')
+    with open(jsonpath, "rt") as opf:
+        jsonstring = opf.read()
+        qdct = json.loads(jsonstring)
+        questionobj =  qdct[number - 1]
+        for filedct in questionobj["files"]:
+            filedct["stage_yaml"] = get_YAML_string(filedct["stage"])
+            filedct["answers_yaml"] = get_YAML_string(filedct["answers"])
+        questionobj["question_index"] = number - 1
+        return jsonify(questionobj)
 
-@app.route('/exams')
-def get_exams():
+@app.route('/questions')
+def get_questions():
     # fetching from the database
-    session = Session()
-    exam_objects = session.query(Exam).all()
+    jsonpath = os.path.join(os.path.split(os.path.split(__file__)[0])[0], 'static', 'Questions.json')
+    with open(jsonpath, "rt") as opf:
+        jsonstring = opf.read()
+        qsdct = json.loads(jsonstring)
+        for (iquestion, question) in enumerate(qsdct):
+            for filedct in question["files"]:
+                filedct["stage_yaml"] = get_YAML_string(filedct["stage"])
+                filedct["answers_yaml"] = get_YAML_string(filedct["answers"])
+            question["question_index"] = iquestion
+            question["of_N_questions"] = len(qsdct)
 
-    # transforming into JSON-serializable objects
-    schema = ExamSchema(many=True)
-    exams = schema.dump(exam_objects)
-
-    # serializing as JSON
-    session.close()
-    return jsonify(exams.data)
-
-
-@app.route('/exams', methods=['POST'])
-def add_exam():
-    # mount exam object
-    posted_exam = ExamSchema(only=('title', 'description'))\
-        .load(request.get_json())
-
-    exam = Exam(**posted_exam.data, created_by="HTTP post request")
-
-    # persist exam
-    session = Session()
-    session.add(exam)
-    session.commit()
-
-    # return created exam
-    new_exam = ExamSchema().dump(exam).data
-    session.close()
-    return jsonify(new_exam), 201
-
-
-# start session
-session = Session()
-
-# check for existing data
-exams = session.query(Exam).all()
-
-if len(exams) == 0:
-    # create and persist dummy exam
-    python_exam = Exam("SQLAlchemy Exam", "Test your knowledge about SQLAlchemy.", "script")
-    session.add(python_exam)
-    session.commit()
-    session.close()
-
-    # reload exams
-    exams = session.query(Exam).all()
-
-# show existing exams
-print('### Exams:')
-for exam in exams:
-    print(f'({exam.id}) {exam.title} - {exam.description}')
+        return jsonify(qsdct)

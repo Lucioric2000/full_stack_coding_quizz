@@ -1,13 +1,33 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Frontend</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta charset="utf-8">
+    <title>Interview quiz</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script type="text/css" src="src/styles.css" media="screen"> </script>
+    <!--script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.7/ace.js" integrity="sha256-C7DTYRJLG+B/VEzHGeoPMw699nsTQYPAXHKXZb+q04E=" crossorigin="anonymous" type="text/javascript" charset="utf-8"></script>
+
 </head>
 <body>
-  <app-root></app-root>
+    <app-root></app-root>
+    <script>
+        var editor = ace.edit("editor");
+        var editorsol = ace.edit("solution");
+        editor.setTheme("ace/theme/monokai");
+        //editor.setTheme("ace/theme/twilight");
+        //editor.session.setMode("ace/mode/yaml");
+        editor.session.setMode("ace/mode/yaml_highlight_rules");
+    </script>
 </body>
 </html>
