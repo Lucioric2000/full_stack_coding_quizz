@@ -1,4 +1,4 @@
-# coding_quiz
+# coding_quizz
 Coding quiz for interview
 
 #Installation
