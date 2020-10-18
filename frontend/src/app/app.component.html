@@ -1,0 +1,37 @@
+<div *ngIf="questions">
+    <div style='vertical-align:top;display:inline;'>
+        <!-- Left (questions) panel: -->
+        <div class="pane" style='width:40%;height:400px;'>
+            <a *ngIf="solution_shown==0">
+                <div class="inner-pane" [(style)]='left_style'>
+                    <h2>{{questions[question_index].title}}</h2>
+                    <div style="text-align: right; margin-right: 10px;">
+                        <button *ngIf="question_index>0"(click)="back()">&lt;</button>
+                        <button *ngIf="question_index==0"(click)="back()" disabled>&lt;</button>
+                        <button *ngIf="question_index<last_question_index"(click)="next()">&gt;</button>
+                        <button *ngIf="question_index>=last_question_index"(click)="next()" disabled>&gt;</button>
+                    </div>
+                    <p><span [(innerHTML)]="questions[question_index].question"></span></p>
+                    <p><span [(innerHTML)]="questions[question_index].subText"></span></p>
+                    <button *ngIf="textmatches"(click)="advance()">Next</button>
+                </div>
+            </a>
+            <a *ngIf="solution_shown">
+                <div contenteditable="false" class="inner-pane" id="solution" [(innerHTML)]="questions[question_index].files[0].answers_yaml">
+                </div>
+            </a>
+            <a *ngIf="textmatches==0">
+                <button *ngIf="solution_shown==0" (click)="show_solution()">Show solution</button>
+                <button *ngIf="solution_shown"(click)="hide_solution()">Hide solution</button>
+            </a>
+        </div>
+        <!-- Rigth (answers) panel: -->
+        <div class="pane" style="width:40%;height:400px;">
+            <div class="inner-pane" contenteditable="true" id="editor" [(innerHTML)]="questions[answer_index].files[0].stage_yaml" (input)="validate($event)">
+            </div>
+            <button (click)="reset()">Reset answer</button>
+        </div>
+    </div>
+</div>
+
+

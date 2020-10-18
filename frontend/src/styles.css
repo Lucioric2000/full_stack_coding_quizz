@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+#editor { 
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    white-space: pre;
+}
+#solution { 
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    white-space: pre;
+}
+.inner-pane { 
+    vertical-align:top;
+    display:block;
+    /*border-style: solid;
+    border-color: black;*/
+    height:300px;
+}
+.pane { 
+    vertical-align:top;
+    display:inline-block;
+    /*border-style: solid;
+    border-color: black;*/
+    width:40%;
+    height:400px;
+}
